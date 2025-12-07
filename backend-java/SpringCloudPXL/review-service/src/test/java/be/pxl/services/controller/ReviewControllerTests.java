@@ -1,4 +1,4 @@
-package be.pxl.services;
+package be.pxl.services.controller;
 
 import be.pxl.services.client.PostClient;
 import be.pxl.services.domain.dto.ReviewRequest;
@@ -73,13 +73,13 @@ public class ReviewControllerTests {
         ReviewRequest request = new ReviewRequest("Not good enough");
         String json = objectMapper.writeValueAsString(request);
 
-        when(postClient.rejectPost(eq(postId), any())).thenReturn(null);
+        when(postClient.rejectPost(eq(postId), any(), any())).thenReturn(null);
 
         mockMvc.perform(
                 put("/api/review/" + postId + "/reject")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("USER", "john")
-                        .header("ROLE", "reviewer")
+                        .header("ROLE", "redact")
                         .content(json)
         ).andExpect(status().isOk());
 
@@ -91,38 +91,38 @@ public class ReviewControllerTests {
 
         UUID postId = UUID.randomUUID();
 
-        when(postClient.approvePost(eq(postId))).thenReturn(null);
+        when(postClient.approvePost(eq(postId), any())).thenReturn(null);
 
         mockMvc.perform(
                 put("/api/review/" + postId + "/approve")
                         .header("USER", "john")
-                        .header("ROLE", "reviewer")
+                        .header("ROLE", "redact")
         ).andExpect(status().isOk());
 
         assertEquals(1, reviewRepository.findAll().size());
     }
 
     @Test
-    void testGetPendingPosts_WithReviewerRole() throws Exception {
+    void testGetPendingPosts_WithRedactRole() throws Exception {
 
-        when(postClient.approvePost(any())).thenReturn(null);
-        when(postClient.rejectPost(any(), any())).thenReturn(null);
+        when(postClient.approvePost(any(), any())).thenReturn(null);
+        when(postClient.rejectPost(any(), any(), any())).thenReturn(null);
 
         mockMvc.perform(
                 put("/api/review/" + UUID.randomUUID() + "/approve")
-                        .header("USER", "john").header("ROLE", "reviewer")
+                        .header("USER", "john").header("ROLE", "redact")
         ).andExpect(status().isOk());
 
         mockMvc.perform(
                 put("/api/review/" + UUID.randomUUID() + "/reject")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ReviewRequest("bad")))
-                        .header("USER", "john").header("ROLE", "reviewer")
+                        .header("USER", "john").header("ROLE", "redact")
         ).andExpect(status().isOk());
 
         mockMvc.perform(
                 get("/api/review/pending")
-                        .header("ROLE", "reviewer")
+                        .header("ROLE", "redact")
         ).andExpect(status().isOk());
     }
 }

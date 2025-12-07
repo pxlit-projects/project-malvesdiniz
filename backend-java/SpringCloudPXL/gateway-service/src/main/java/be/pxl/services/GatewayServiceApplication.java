@@ -1,13 +1,18 @@
 package be.pxl.services;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
 /**
- * Hello world!
+ * Gateway Service!
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+@SpringBootApplication
+@EnableDiscoveryClient
+public class GatewayServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(GatewayServiceApplication.class, args);
     }
 }

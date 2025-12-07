@@ -1,5 +1,6 @@
 package be.pxl.services.controller;
 
+import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.ReviewRequest;
 import be.pxl.services.domain.dto.ReviewResponse;
 import be.pxl.services.service.IReviewService;
@@ -32,5 +33,15 @@ public class ReviewController {
             @RequestBody ReviewRequest request
     ) {
         return ResponseEntity.ok(reviewService.reject(postId, request, reviewer, role));
+    }
+    @GetMapping("/pending")
+    public ResponseEntity<Iterable<PostResponse>> getPendingPosts(
+            @RequestHeader("ROLE") String role
+    ) {
+        if (!"REDACT".equalsIgnoreCase(role)) {
+            throw new RuntimeException("Only redacts can view pending posts.");
+        }
+
+        return ResponseEntity.ok(reviewService.getPendingPosts());
     }
 }

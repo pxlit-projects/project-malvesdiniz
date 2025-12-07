@@ -1,2 +1,6 @@
-package be.pxl.services.domain.dto;public class FilterDtoRequest {
+package be.pxl.services.domain.dto;
+
+import java.time.LocalDate;
+
+public record FilterDtoRequest(String auteur, String text, LocalDate date) {
 }

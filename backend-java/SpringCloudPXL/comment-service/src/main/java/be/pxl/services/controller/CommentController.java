@@ -28,5 +28,20 @@ public class CommentController {
     public ResponseEntity<List<CommentResponse>> get(@PathVariable UUID postId) {
         return ResponseEntity.ok(commentService.getComments(postId));
     }
-
+    @PutMapping("/edit/{commentId}")
+    public ResponseEntity<CommentResponse> edit(
+            @PathVariable UUID commentId,
+            @RequestHeader("USER") String user,
+            @RequestBody CommentRequest request
+    ) {
+        return ResponseEntity.ok(commentService.editComment(commentId, user, request));
+    }
+    @DeleteMapping("/delete/{commentId}")
+    public ResponseEntity<Void> delete(
+            @PathVariable UUID commentId,
+            @RequestHeader("USER") String user
+    ) {
+        commentService.deleteComment(commentId, user);
+        return ResponseEntity.noContent().build();
+    }
 }

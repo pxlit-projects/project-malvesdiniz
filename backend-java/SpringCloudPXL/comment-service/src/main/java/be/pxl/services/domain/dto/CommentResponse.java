@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentResponse {
+    private UUID id;
     private UUID postId;
     private String author;
     private String text;

@@ -1,13 +1,19 @@
 package be.pxl.services;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
+
 /**
- * Hello world!
+ * Config Service!
  *
  */
-public class App 
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServiceApplication
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        SpringApplication.run(ConfigServiceApplication.class, args);
     }
 }

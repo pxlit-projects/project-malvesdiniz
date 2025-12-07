@@ -1,2 +1,3 @@
-package be.pxl.services.domain.dto;public class ReviewDecisionRequest {
-}
+package be.pxl.services.domain.dto;
+
+public record ReviewDecisionRequest(String comment) {}

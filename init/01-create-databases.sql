@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS postservice_db;
+CREATE DATABASE IF NOT EXISTS reviewservice_db;
+CREATE DATABASE IF NOT EXISTS commentservice_db;
