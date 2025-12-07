@@ -1,7 +1,6 @@
 # Fullstack Java Project
 
-## Firstname Lastname (Class)
-Change the name and Class in the title above
+## Mariana Alves Diniz (3TIW)
 
 ## Folder structure
 
@@ -17,4 +16,54 @@ Each folder contains its own specific `.gitignore` file.
 
 ## How to setup and run this application
 
-:heavy_check_mark:_(COMMENT) Add setup instructions and provide some direction to run the whole  application: frontend to backend._
+This project is a distributed application built with **Spring Boot**, **Spring Cloud**, **Docker**, **MySQL**, and **RabbitMQ**, organized into independent microservices that communicate with each other through REST and messaging.
+
+The architecture includes:
+
+- **Config Server** (centralized configuration)
+- **Discovery Server (Eureka)**
+- **API Gateway**
+- **PostService**, **ReviewService**, **CommentService**
+- **RabbitMQ** for asynchronous messaging
+- Separate databases per microservice for proper isolation
+
+  ---
+
+##  How to Run the Project
+### Requirements
+- **Docker** and **Docker Compose**
+- **Java 17+**
+- **Maven**
+
+---
+
+##  1. Start the Infrastructure (MySQL + RabbitMQ)
+
+Use the provided `docker-compose.yml`:
+
+```bash
+docker compose up -d
+```
+
+## 2. Required Startup Order for Microservices
+
+To ensure proper configuration loading and registration, start the services in this exact order:
+
+- 1️⃣ ConfigService
+- 2️⃣ DiscoveryService (Eureka)
+- 3️⃣ PostService
+- 4️⃣ ReviewService
+- 5️⃣ CommentService
+- 6️⃣ GatewayService
+
+```bash
+mvn spring-boot:run -pl config-service
+mvn spring-boot:run -pl discovery-service
+mvn spring-boot:run -pl post-service
+mvn spring-boot:run -pl review-service
+mvn spring-boot:run -pl comment-service
+mvn spring-boot:run -pl gateway-service
+
+
+  
+
