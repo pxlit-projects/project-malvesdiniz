@@ -56,7 +56,7 @@ class ReviewServiceTest {
         assertEquals("john", response.getReviewer());
         assertEquals(ReviewStatus.APPROVED, response.getStatus());
 
-        verify(postClient).approvePost(postId, "redact");
+        verify(postClient).approvePost(postId, "john");
 
         verify(reviewRepository).save(any(Review.class));
 
@@ -73,7 +73,7 @@ class ReviewServiceTest {
         );
 
         verify(reviewRepository, never()).save(any());
-        verify(postClient, never()).approvePost(any(), "redact");
+        verify(postClient, never()).approvePost(any(), any());
         verify(publisher, never()).sendApprovedEvent(any());
     }
 
@@ -95,7 +95,7 @@ class ReviewServiceTest {
         assertEquals("Too short", response.getComment());
         assertEquals(ReviewStatus.REJECTED, response.getStatus());
 
-        verify(postClient).rejectPost(postId,"redact", request);
+        verify(postClient).rejectPost(postId,"john", request);
 
         verify(reviewRepository).save(any(Review.class));
 
@@ -113,7 +113,7 @@ class ReviewServiceTest {
         );
 
         verify(reviewRepository, never()).save(any());
-        verify(postClient, never()).rejectPost(any(), "redact",any());
+        verify(postClient, never()).rejectPost(any(), any(),any());
         verify(publisher, never()).sendRejectedEvent(any(), any());
     }
 

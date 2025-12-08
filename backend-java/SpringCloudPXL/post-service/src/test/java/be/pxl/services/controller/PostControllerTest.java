@@ -150,6 +150,8 @@ public class PostControllerTest {
 
         mockMvc.perform(
                 put("/api/post/" + post.getId() + "/approve")
+                        .header("USER", "redact")
+                        .header("ROLE", "redact")
         ).andExpect(status().isOk());
 
         assertEquals(PostStatus.APPROVED,
@@ -175,6 +177,8 @@ public class PostControllerTest {
 
         mockMvc.perform(
                 put("/api/post/" + post.getId() + "/reject")
+                        .header("USER", "redact")
+                        .header("ROLE", "redact")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)
         ).andExpect(status().isOk());
